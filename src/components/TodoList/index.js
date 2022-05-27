@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTodo } from '../../redux/todo/todo.action';
 import { v4 as uuidv4 } from 'uuid';
 import { useRef, useState } from 'react';
-import { selectTodos } from '../../redux/todo/todo.selector';
+import { selectTodos, selectFilteredTodos } from '../../redux/todo/todo.selector';
 
 export default function TodoList() {
   const todoRef = useRef(null);
   const [todoName, setTodoName] = useState('');
   const [todoPriority, setTodoPriority] = useState('Medium');
 
-  const { todos } = useSelector(selectTodos);
+  const todos = useSelector(selectFilteredTodos);
 
   const dispatch = useDispatch();
   const handleAddTodoItem = () => {

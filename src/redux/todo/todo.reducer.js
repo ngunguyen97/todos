@@ -4,10 +4,10 @@ const initState = {
     status: 'All',
     priority: [],
   },
-  todos: [
+  items: [
     { id: 1, name: 'Learn Yoga', completed: false, priority: 'Medium' },
     { id: 2, name: 'Learn Redux', completed: true, priority: 'High' },
-    { id: 3, name: 'Learn Javscript', completed: false, priority: 'Low' },
+    { id: 3, name: 'Learn Javascript', completed: false, priority: 'Low' },
   ],
 };
 
@@ -16,7 +16,15 @@ const todoReducer = (state = initState, action) => {
     case 'todos/addTodo':
       return {
         ...state,
-        todos: [...state.todos, action.payload],
+        items: [...state.items, action.payload],
+      };
+    case 'filters/searchTodo':
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          search: action.payload,
+        },
       };
     default:
       return state;
