@@ -1,8 +1,10 @@
+import { transformTodos } from './todo.utils';
+
 const initState = {
   filters: {
     search: '',
     status: 'All',
-    priority: [],
+    priorities: [],
   },
   items: [
     { id: 1, name: 'Learn Yoga', completed: false, priority: 'Medium' },
@@ -25,6 +27,27 @@ const todoReducer = (state = initState, action) => {
           ...state.filters,
           search: action.payload,
         },
+      };
+    case 'filters/status':
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          status: action.payload,
+        },
+      };
+    case 'filters/priorities':
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          priorities: action.payload,
+        },
+      };
+    case 'todos/completedItem':
+      return {
+        ...state,
+        items: transformTodos(state, action),
       };
     default:
       return state;

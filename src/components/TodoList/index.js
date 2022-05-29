@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTodo } from '../../redux/todo/todo.action';
 import { v4 as uuidv4 } from 'uuid';
 import { useRef, useState } from 'react';
-import { selectTodos, selectFilteredTodos } from '../../redux/todo/todo.selector';
+import { selectTodoListByAllFilters } from '../../redux/todo/todo.selector';
 
 export default function TodoList() {
   const todoRef = useRef(null);
   const [todoName, setTodoName] = useState('');
   const [todoPriority, setTodoPriority] = useState('Medium');
 
-  const todos = useSelector(selectFilteredTodos);
+  const todos = useSelector(selectTodoListByAllFilters);
 
   const dispatch = useDispatch();
   const handleAddTodoItem = () => {
@@ -27,13 +27,19 @@ export default function TodoList() {
     setTodoPriority('Medium');
     todoRef.current.focus();
   };
-  //1;12;37
+  //2;04;49
 
   return (
     <Row style={{ height: 'calc(100% - 40px)' }}>
       <Col span={24} style={{ height: 'calc(100% - 40px)', overflowY: 'auto' }}>
         {todos.map((todo) => (
-          <Todo key={todo.id} name={todo.name} prioriry={todo.priority} />
+          <Todo
+            key={todo.id}
+            id={todo.id}
+            name={todo.name}
+            prioriry={todo.priority}
+            compelted={todo.completed}
+          />
         ))}
         {/* <Todo name="Learn React" prioriry="High" />
         <Todo name="Learn Redux" prioriry="Medium" />
