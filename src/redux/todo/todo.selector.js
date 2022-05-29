@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect';
 
 export const selectTodos = (state) => state.todos.items;
-export const selectSearch = (state) => state.filters.search;
-export const selectStatus = (state) => state.filters.status;
-export const selectPriorities = (state) => state.filters.priorities;
+export const selectSearch = (state) => state.todos.filters.search;
+export const selectStatus = (state) => state.todos.filters.status;
+export const selectPriorities = (state) => state.todos.filters.priorities;
 
 export const selectFilteredTodos = createSelector(
   selectTodos,
