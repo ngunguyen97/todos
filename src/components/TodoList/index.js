@@ -1,27 +1,35 @@
 import { Col, Row, Input, Button, Select, Tag } from 'antd';
 import Todo from '../Todo';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo } from '../../redux/todo/todo.slice';
+import { addNewTodo } from '../../redux/todo/todo.slice';
 import { v4 as uuidv4 } from 'uuid';
 import { useRef, useState } from 'react';
 import { selectTodoListByAllFilters } from '../../redux/todo/todo.selector';
 export default function TodoList() {
   const todoRef = useRef(null);
   const [todoName, setTodoName] = useState('');
+  const [isEmpty, setIsEmpty] = useState(false);
   const [todoPriority, setTodoPriority] = useState('Medium');
 
   const todos = useSelector(selectTodoListByAllFilters);
 
   const dispatch = useDispatch();
   const handleAddTodoItem = () => {
+    if (!todoName.length) {
+      setIsEmpty(!todoName.length);
+      todoRef.current.focus();
+      return;
+    }
+
     dispatch(
-      addTodo({
+      addNewTodo({
         id: uuidv4(),
         name: todoName,
         completed: false,
         priority: todoPriority,
       })
     );
+    setIsEmpty(!todoName.length);
     setTodoName('');
     setTodoPriority('Medium');
     todoRef.current.focus();
@@ -37,7 +45,7 @@ export default function TodoList() {
             id={todo.id}
             name={todo.name}
             prioriry={todo.priority}
-            compelted={todo.completed}
+            completed={todo.completed}
           />
         ))}
         {/* <Todo name="Learn React" prioriry="High" />
@@ -46,7 +54,17 @@ export default function TodoList() {
       </Col>
       <Col span={24}>
         <Input.Group style={{ display: 'flex' }} compact>
-          <Input value={todoName} onChange={(e) => setTodoName(e.target.value)} ref={todoRef} />
+          <Input
+            style={
+              isEmpty ? { borderColor: '#ff4d4f', boxShadow: '0 0 0 2px rgb(255 77 79 / 20%)' } : {}
+            }
+            className="red"
+            placeholder="Enter a name"
+            value={todoName}
+            onChange={(e) => setTodoName(e.target.value)}
+            ref={todoRef}
+          />
+
           <Select
             defaultValue="Medium"
             value={todoPriority}

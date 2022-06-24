@@ -2,10 +2,27 @@ import { Typography, Divider } from 'antd';
 import './App.css';
 import TodoList from './components/TodoList';
 import Filters from './components/Filters';
+import { setupServer } from './fakeApis';
+import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchTodos } from './redux/todo/todo.slice';
+
+setupServer();
 
 const { Title } = Typography;
-
+// 41: 56
 function App() {
+  const dispatch = useDispatch();
+  const fetchTodosRef = useRef(() => {});
+  fetchTodosRef.current = () => {
+    dispatch(fetchTodos());
+  };
+  useEffect(() => {
+    console.log('re-render');
+    fetchTodosRef.current();
+  }, [fetchTodosRef]);
+
+  console.log('render');
   return (
     <div
       style={{
@@ -20,7 +37,7 @@ function App() {
         height: '90vh',
       }}
     >
-      <Title style={{ textAlign: 'center' }}>TODO APP with REDUX</Title>
+      <Title style={{ textAlign: 'center' }}>TODO LIST</Title>
       <Filters />
       <Divider />
       <TodoList />

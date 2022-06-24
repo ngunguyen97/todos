@@ -1,11 +1,9 @@
 export const transformTodos = (state, action) => {
-  return state.items.map((item) => {
-    if (item.id === action.payload) {
-      return {
-        ...item,
-        completed: !item.completed,
-      };
+  const results = state.items.map((item) => {
+    if (item.id === action.payload.id) {
+      return (item = action.payload);
     }
     return item;
   });
+  return results;
 };
